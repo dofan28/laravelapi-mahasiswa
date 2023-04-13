@@ -2,26 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\mahasiswa;
 use App\Http\Requests\StoremahasiswaRequest;
 use App\Http\Requests\UpdatemahasiswaRequest;
+use App\Http\Resources\MahasiswaResource;
+use App\Models\mahasiswa;
+use Illuminate\Http\Request;
 
-class MahasiswaController extends Controller
+class MahasiswaApiResourceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return MahasiswaResource::collection(Mahasiswa::paginate(5));
     }
 
     /**
@@ -29,7 +23,7 @@ class MahasiswaController extends Controller
      */
     public function store(StoremahasiswaRequest $request)
     {
-        //
+    return new MahasiswaResource(Mahasiswa::create($request->validated()));
     }
 
     /**
@@ -37,15 +31,8 @@ class MahasiswaController extends Controller
      */
     public function show(mahasiswa $mahasiswa)
     {
-        //
-    }
+        return new MahasiswaResource($mahasiswa);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(mahasiswa $mahasiswa)
-    {
-        //
     }
 
     /**
@@ -53,7 +40,8 @@ class MahasiswaController extends Controller
      */
     public function update(UpdatemahasiswaRequest $request, mahasiswa $mahasiswa)
     {
-        //
+        $mahasiswa->update($request->validated());
+        return new MahasiswaResource($mahasiswa);
     }
 
     /**
@@ -61,6 +49,7 @@ class MahasiswaController extends Controller
      */
     public function destroy(mahasiswa $mahasiswa)
     {
-        //
+        $mahasiswa->delete();
+        return response()->noContent();
     }
 }

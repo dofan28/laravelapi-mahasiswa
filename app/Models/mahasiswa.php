@@ -14,7 +14,7 @@ class mahasiswa extends Model
 
     # MASS ASSIGNMENT
     # Untuk membatasi attribut yang boleh di isi (Untuk keamanan)
-    protected $fillable = ['nama', 'nrp'];
+    protected $fillable = ['nama', 'nrp', 'id_dosen'];
 
     /*
 	 * Relasi One-to-One

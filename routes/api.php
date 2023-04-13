@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DosenApiController;
 use App\Http\Controllers\MahasiswaApiController;
+use App\Http\Controllers\WaliApiResourceController;
+use App\Http\Controllers\DosenApiResourceController;
+use App\Http\Controllers\MahasiswaApiResourceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +23,16 @@ use App\Http\Controllers\MahasiswaApiController;
 //     return $request->user();
 // });
 
+
+// Mahasiswa CRUD
+Route::apiResource('mahasiswa', MahasiswaApiResourceController::class);
+
+// Dosen CRUD
+Route::apiResource('dosen', DosenApiResourceController::class);
+
+// Wali CRUD
+Route::apiResource('wali', WaliApiResourceController::class);
+
 // Jalankan URL: {{base_url}}/api/mahasiswa/relasi-1
 // Route untuk menemukan nama wali mahasiswa berdasarkan nrp mahasiswa
 Route::get('mahasiswa/relasi-1', [MahasiswaApiController::class, 'relasi_1']);
@@ -31,7 +44,3 @@ Route::get('mahasiswa/relasi-2', [MahasiswaApiController::class, 'relasi_2']);
 // Jalankan URL: {{base_url}}/api/dosen/relasi-3
 // Route untuk menampilkan seluruh mahasiswa yang dibimbing oleh dosen Yulianto 
 Route::get('dosen/relasi-3', [DosenApiController::class, 'relasi_3']);
-
-// versi CRUD
-// Route::apiResource('mahasiswa', MahasiswaApiController::class); 
-

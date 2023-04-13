@@ -2,26 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\dosen;
 use App\Http\Requests\StoredosenRequest;
 use App\Http\Requests\UpdatedosenRequest;
+use App\Http\Resources\DosenResource;
+use App\Models\dosen;
+use Illuminate\Http\Request;
 
-class DosenController extends Controller
+class DosenApiResourceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return DosenResource::collection(Dosen::paginate(5));
     }
 
     /**
@@ -29,7 +23,7 @@ class DosenController extends Controller
      */
     public function store(StoredosenRequest $request)
     {
-        //
+        return new DosenResource(Dosen::create($request->validated()));
     }
 
     /**
@@ -37,15 +31,7 @@ class DosenController extends Controller
      */
     public function show(dosen $dosen)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(dosen $dosen)
-    {
-        //
+        return new DosenResource($dosen);
     }
 
     /**
@@ -53,7 +39,8 @@ class DosenController extends Controller
      */
     public function update(UpdatedosenRequest $request, dosen $dosen)
     {
-        //
+        $dosen->update($request->validated());
+        return new DosenResource($dosen);
     }
 
     /**
@@ -61,6 +48,7 @@ class DosenController extends Controller
      */
     public function destroy(dosen $dosen)
     {
-        //
+        $dosen->delete();
+        return response()->noContent();
     }
 }

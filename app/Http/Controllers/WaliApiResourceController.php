@@ -2,26 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\wali;
 use App\Http\Requests\StorewaliRequest;
 use App\Http\Requests\UpdatewaliRequest;
+use App\Http\Resources\WaliResource;
+use App\Models\wali;
+use Illuminate\Http\Request;
 
-class WaliController extends Controller
+class WaliApiResourceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return WaliResource::collection(Wali::paginate(5));
     }
 
     /**
@@ -29,7 +23,7 @@ class WaliController extends Controller
      */
     public function store(StorewaliRequest $request)
     {
-        //
+        return new WaliResource(Wali::create($request->validated()));
     }
 
     /**
@@ -37,15 +31,8 @@ class WaliController extends Controller
      */
     public function show(wali $wali)
     {
-        //
-    }
+        return new WaliResource($wali);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(wali $wali)
-    {
-        //
     }
 
     /**
@@ -53,7 +40,8 @@ class WaliController extends Controller
      */
     public function update(UpdatewaliRequest $request, wali $wali)
     {
-        //
+        $wali->update($request->validated());
+        return new WaliResource($wali);
     }
 
     /**
@@ -61,6 +49,7 @@ class WaliController extends Controller
      */
     public function destroy(wali $wali)
     {
-        //
+        $wali->delete();
+        return response()->noContent();
     }
 }
